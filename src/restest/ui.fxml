@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" blendMode="SRC_OVER" minWidth="450.0" prefHeight="401.0" prefWidth="702.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restest.uiController">
+  <children>
+    <MenuBar id="menuBar" layoutY="0.0" prefWidth="442.0" style="" useSystemMenuBar="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#exitCalled" text="Exit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#showAbout" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane prefHeight="49.0" prefWidth="453.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
+      <children>
+        <ChoiceBox fx:id="choiceMethod" prefHeight="25.0" prefWidth="78.0" style="" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="15.0">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="GET" />
+              <String fx:value="POST" />
+              <String fx:value="PUT" />
+              <String fx:value="DELETE" />
+            </FXCollections>
+          </items>
+        </ChoiceBox>
+        <Button fx:id="btnSubmit" mnemonicParsing="false" onAction="#sendRequest" text="Send Request" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="15.0" />
+        <TextField fx:id="txtEndpoint" layoutY="15.0" onAction="#onEnter" prefWidth="304.0" promptText="URL/Endpoint" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="203.0" />
+      </children>
+    </AnchorPane>
+    <TabPane fx:id="tabsResponse" prefHeight="304.0" prefWidth="521.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="73.0">
+      <tabs>
+        <Tab text="HTTP Request">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="246.0" prefWidth="521.0">
+<children>
+                <Accordion prefHeight="273.0" prefWidth="521.0" style="-fx-background-color: #DDD; -fx-border-color: #BBB;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <panes>
+                    <TitledPane text="Request Headers" fx:id="x3">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <TableView fx:id="tableReqH" editable="true" prefHeight="225.0" prefWidth="441.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
+<effect>
+<InnerShadow color="#00000054" />
+</effect></TableView>
+                            <ToolBar minWidth="78.0" orientation="VERTICAL" prefHeight="225.0" prefWidth="80.0" style="-fx-background-color: #f4f4f4;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                              <items>
+                                <Button id="btnReqHClear" fx:id="btnRqAdd" mnemonicParsing="false" onAction="#addRequestHeader" prefWidth="73.0" text="Add" />
+                                <Button fx:id="btnRqDelete" mnemonicParsing="false" onAction="#deleteRequestHeader" prefWidth="78.0" text="Delete" />
+                                <Button fx:id="btnRqClear" mnemonicParsing="false" onAction="#clearRequestHeaders" prefWidth="78.0" text="Clear" />
+                              </items>
+                            </ToolBar>
+                          </children>
+                        </AnchorPane>
+                      </content>
+<effect>
+<DropShadow color="#0000002b" offsetY="5.0" />
+</effect>
+                    </TitledPane>
+                    <TitledPane text="POST Data (optional)" fx:id="x1">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <ToolBar minWidth="78.0" orientation="VERTICAL" prefHeight="225.0" prefWidth="80.0" style="-fx-background-color: #f4f4f4;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                              <items>
+                                <Button id="btnPdAdd" fx:id="btnPDAdd" mnemonicParsing="false" onAction="#addPostData" prefWidth="78.0" text="Add" />
+                                <Button fx:id="btnPDDel" mnemonicParsing="false" onAction="#deletePostData" prefWidth="73.0" text="Delete" />
+                                <Button fx:id="btnPDClear" mnemonicParsing="false" onAction="#clearPostData" prefWidth="78.0" text="Clear" />
+                              </items>
+                            </ToolBar><TableView fx:id="tablePostData" editable="true" layoutX="14.0" layoutY="13.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
+<effect>
+<InnerShadow color="#00000054" />
+</effect>
+</TableView>
+                          </children>
+                        </AnchorPane>
+                      </content>
+<effect>
+<DropShadow color="#0000002b" offsetY="5.0" />
+</effect>
+                    </TitledPane>
+                  </panes>
+                </Accordion>
+</children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab fx:id="tabResponse" text="HTTP Response">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion prefHeight="273.0" prefWidth="521.0" style="-fx-background-color: #DDD; -fx-border-color: #BBB;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                  <panes>
+                    <TitledPane text="Response Headers" fx:id="x4">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <TableView fx:id="tableRspHeader" prefHeight="225.0" prefWidth="523.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<effect>
+<InnerShadow color="#00000054" />
+</effect></TableView>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                    <TitledPane text="Response Body" fx:id="x2">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+<children><TextArea fx:id="txtResponseBody" editable="false" scaleShape="false" text="This is some text" translateX="0.4" translateY="0.4" wrapText="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<rotationAxis>
+<Point3D />
+</rotationAxis>
+<effect>
+<InnerShadow color="#00000054" />
+</effect></TextArea>
+</children>
+                        </AnchorPane>
+                      </content>
+<effect>
+<DropShadow color="#0000002b" offsetY="5.0" />
+</effect>
+                    </TitledPane>
+                  </panes>
+                </Accordion>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+    <HBox prefHeight="24.0" prefWidth="521.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+<children><AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="704.0" HBox.hgrow="ALWAYS">
+<children><Label fx:id="statusLabel" layoutX="221.0" text="idle..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.topAnchor="0.0" /><Hyperlink fx:id="lnkJeffPizano" layoutX="608.8017578125" layoutY="0.5" onAction="#visitAuthorAddress" text="JeffPizano.com" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" /><ProgressBar fx:id="progBar" layoutX="10.0" layoutY="3.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="3.0" />
+</children></AnchorPane>
+</children></HBox>
+  </children>
+</AnchorPane>

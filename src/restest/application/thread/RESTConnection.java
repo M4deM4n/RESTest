@@ -207,9 +207,6 @@ public class RESTConnection extends Task<Response>
     @Override
     protected Response call() throws Exception
     {
-        System.out.println(method);
-        
-        
         try
         {
             if(method.equals("POST") || method.equals("PUT"))

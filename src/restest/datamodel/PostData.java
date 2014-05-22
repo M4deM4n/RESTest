@@ -4,6 +4,7 @@
  */
 package restest.datamodel;
 
+import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
 
 
@@ -12,10 +13,12 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Pizano
  */
-public class PostData
+public class PostData implements Serializable
 {
-    final private SimpleStringProperty param = new SimpleStringProperty();
-    final private SimpleStringProperty data = new SimpleStringProperty();
+//    final private SimpleStringProperty param = new SimpleStringProperty();
+//    final private SimpleStringProperty data = new SimpleStringProperty();
+    private String param;
+    private String data;
     
     
     /**
@@ -34,8 +37,11 @@ public class PostData
      */
     public PostData(String p, String d)
     {
-        param.set(p);
-        data.set(d);
+//        param.set(p);
+//        data.set(d);
+        
+        param = p;
+        data = d;
     }
     
     
@@ -46,7 +52,7 @@ public class PostData
     @Override
     public String toString()
     {
-        return param.get() + "=" + data.get();
+        return param + "=" + data;
     }
     
     
@@ -56,7 +62,7 @@ public class PostData
      */
     public String getParam()
     {
-        return param.get();
+        return param;
     }
     
     
@@ -66,26 +72,26 @@ public class PostData
      */
     public String getData()
     {
-        return data.get();
+        return data;
     }
     
     
     /**
      * 
-     * @param param 
+     * @param p
      */
     public void setParam(String p)
     {
-        param.set(p);
+        param = p;
     }
     
     
     /**
      * 
-     * @param value 
+     * @param d
      */
     public void setData(String d)
     {
-        data.set(d);
+        data = d;
     }
 }

@@ -18,15 +18,19 @@ import javafx.stage.Stage;
  */
 public class RESTest extends Application
 {
+    public static Stage stage;
+    public static String title = "RESTest v0.1.0 ";
+    
     
     @Override
     public void start(Stage stage) throws Exception
     {
+        this.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("ui.fxml"));
         
         Scene scene = new Scene(root);
         
-        stage.setTitle("RESTest v0.1");
+        stage.setTitle(RESTest.title);
         stage.setScene(scene);
         stage.show();
     }

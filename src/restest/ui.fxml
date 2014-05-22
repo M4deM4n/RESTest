@@ -5,6 +5,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane id="AnchorPane" blendMode="SRC_OVER" minWidth="450.0" prefHeight="401.0" prefWidth="702.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restest.uiController">
@@ -12,8 +13,20 @@
     <MenuBar id="menuBar" layoutY="0.0" prefWidth="442.0" style="" useSystemMenuBar="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
       <menus>
         <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#exitCalled" text="Exit" />
+          <items><MenuItem mnemonicParsing="false" onAction="#resetApplication" text="New">
+<accelerator>
+<KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+</accelerator></MenuItem><MenuItem mnemonicParsing="false" onAction="#openSaveFile" text="Load">
+<accelerator>
+<KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+</accelerator></MenuItem><MenuItem mnemonicParsing="false" onAction="#saveRequest" text="Save">
+<accelerator>
+<KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+</accelerator></MenuItem><MenuItem mnemonicParsing="false" onAction="#saveRequestAs" text="Save As..." />
+            <MenuItem fx:id="menuExit" mnemonicParsing="false" onAction="#exitCalled" text="Exit">
+<accelerator>
+<KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+</accelerator></MenuItem>
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -142,7 +155,7 @@
     </TabPane>
     <HBox prefHeight="24.0" prefWidth="521.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 <children><AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="704.0" HBox.hgrow="ALWAYS">
-<children><Label fx:id="statusLabel" layoutX="221.0" text="idle..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="221.0" AnchorPane.topAnchor="0.0" /><Hyperlink fx:id="lnkJeffPizano" layoutX="608.8017578125" layoutY="0.5" onAction="#visitAuthorAddress" text="JeffPizano.com" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" /><ProgressBar fx:id="progBar" layoutX="10.0" layoutY="3.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="3.0" />
+<children><Label fx:id="statusLabel" alignment="BOTTOM_CENTER" layoutX="221.0" prefHeight="24.0" prefWidth="374.0" style="-fx-background-color: #DDD; -fx-border-color: #AAA;" text="idle..." AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="107.0" AnchorPane.topAnchor="5.0" /><Hyperlink fx:id="lnkJeffPizano" layoutX="608.8017578125" layoutY="0.5" onAction="#visitAuthorAddress" text="JeffPizano.com" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" /><ProgressBar fx:id="progBar" layoutX="10.0" layoutY="3.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="4.0" />
 </children></AnchorPane>
 </children></HBox>
   </children>

@@ -4,6 +4,7 @@
  */
 package restest.datamodel;
 
+import java.io.Serializable;
 import javafx.beans.property.SimpleStringProperty;
 
 
@@ -12,10 +13,13 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Pizano
  */
-public class RequestHeader
+public class RequestHeader implements Serializable
 {
-    final private SimpleStringProperty header = new SimpleStringProperty();
-    final private SimpleStringProperty value = new SimpleStringProperty();
+//    final private SimpleStringProperty header = new SimpleStringProperty();
+//    final private SimpleStringProperty value = new SimpleStringProperty();
+    
+    private String header;
+    private String value;
     
     
     /**
@@ -34,8 +38,10 @@ public class RequestHeader
      */
     public RequestHeader(String h, String v)
     {
-        header.set(h);
-        value.set(v);
+//        header.set(h);
+//        value.set(v);
+        header = h;
+        value = v;
     }
     
     
@@ -46,7 +52,7 @@ public class RequestHeader
     @Override
     public String toString()
     {
-        return header.get() + ": " + value.get();
+        return header + ": " + value;
     }
     
     
@@ -56,7 +62,7 @@ public class RequestHeader
      */
     public void setHeader(String h)
     {
-        header.set(h);
+        header = h;
     }
     
     
@@ -66,7 +72,7 @@ public class RequestHeader
      */
     public void setValue(String v)
     {
-        value.set(v);
+        value = v;
     }
     
     
@@ -76,7 +82,7 @@ public class RequestHeader
      */
     public String getHeader()
     {
-        return header.get();
+        return header;
     }
     
     
@@ -86,6 +92,6 @@ public class RequestHeader
      */
     public String getValue()
     {
-        return value.get();
+        return value;
     }
 }

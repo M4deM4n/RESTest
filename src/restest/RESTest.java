@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class RESTest extends Application
 {
     public static Stage stage;
-    public static String title = "RESTest v0.1.0 ";
+    public static String title = "RESTest v0.1.0 Hi sarah!";
     
     
     @Override

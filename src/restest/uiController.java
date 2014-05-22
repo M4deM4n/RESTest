@@ -4,6 +4,11 @@
  */
 package restest;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -36,10 +41,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.util.Callback;
 import org.controlsfx.dialog.Dialogs;
 import restest.application.RESTApp;
 import restest.application.RESTestService;
+import restest.datamodel.PersistantRequest;
 import restest.datamodel.PostData;
 import restest.datamodel.Request;
 import restest.datamodel.RequestHeader;
@@ -50,7 +57,7 @@ import restest.datamodel.ResponseHeader;
 
 /**
  *
- * @author Pizano
+ * @author Jeff Pizano
  */
 public class uiController implements Initializable
 {
@@ -65,6 +72,8 @@ public class uiController implements Initializable
     
     public String response;
     public String bodyData;
+    
+    private String currentFile;
     
     @FXML
     TextField txtEndpoint;
@@ -112,6 +121,113 @@ public class uiController implements Initializable
     TabPane tabsResponse;
     
     
+    
+    /**
+     * 
+     */
+    @FXML
+    private void saveRequest()
+    {
+        if(currentFile == null)
+            saveRequestAs();
+        
+        PersistantRequest dat = new PersistantRequest();
+        dat.setHeaders(requestHeaders);
+        dat.setPostData(postData);
+        dat.setURL(txtEndpoint.getText());
+        
+        try {
+            FileOutputStream fout = new FileOutputStream(currentFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(dat);
+            oos.close();
+            }
+        catch (Exception e) { e.printStackTrace(); }
+        
+        RESTest.stage.setTitle(RESTest.title + "- " + currentFile);
+        statusLabel.setText("File Saved: " + currentFile);
+    }
+    
+    
+    
+    /**
+     * 
+     */
+    @FXML
+    private void saveRequestAs()
+    {
+        FileChooser myFile = new FileChooser();
+        myFile.setTitle("Save Request As...");
+        
+        try {
+            File file = myFile.showSaveDialog(null);
+            currentFile = file.getPath();
+            saveRequest();
+        }
+        catch(Exception ex) {
+            Dialogs.create().showException(ex);
+        }
+    }
+    
+    
+    
+    /**
+     * 
+     */
+    @FXML
+    private void openSaveFile()
+    {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open Request");
+        PersistantRequest pq;
+        
+        try {
+            File file = fc.showOpenDialog(null);
+            FileInputStream fin = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fin);
+            pq = (PersistantRequest) ois.readObject();
+            ois.close();
+            
+            currentFile = file.getPath();
+            
+            requestHeaders.clear();
+            postData.clear();
+            
+            txtEndpoint.setText(pq.getURL());
+            requestHeaders.addAll(pq.getHeaderList());
+            postData.addAll(pq.getPostDataList());
+            
+            RESTest.stage.setTitle(RESTest.title + "- " + currentFile);
+            statusLabel.setText("Loaded File: " + currentFile);
+            
+        }
+        catch(Exception ex) {
+            Dialogs.create().showException(ex);
+        }
+    }
+    
+    
+    
+    /**
+     * 
+     */
+    @FXML
+    private void resetApplication()
+    {
+        currentFile = null;
+        requestHeaders.clear();
+        postData.clear();
+        requestHeaders.add(new RequestHeader("User-Agent", "RESTest/0.1"));
+        requestHeaders.add(new RequestHeader("Date", app.getDate()));
+        postData.clear();
+        RESTest.stage.setTitle(RESTest.title);
+    }
+    
+    
+    
+    /**
+     * 
+     */
     @FXML
     private void exitCalled()
     {
@@ -119,6 +235,10 @@ public class uiController implements Initializable
     }
     
     
+    
+    /**
+     * 
+     */
     @FXML
     private void visitAuthorAddress()
     {
@@ -132,16 +252,20 @@ public class uiController implements Initializable
     }
     
     
+    
+    /**
+     * 
+     */
     @FXML
     private void showAbout()
     {
-//        Action response = Dialogs.create()
-//          .title("You do want dialogs right?")
-//          .masthead("Just Checkin'")
-//          .message( "I was a bit worried that you might not want them, so I wanted to double check.")
-//          .showInformation();
-        Dialogs.create().title("About").masthead("RESTest v0.1\nAuthor: Jeff Pizano").message("Copyright 2014 - Jeff Pizano").showInformation();
+        Dialogs.create()
+                .title("About")
+                .masthead("RESTest v0.1\nAuthor: Jeff Pizano")
+                .message("Copyright 2014 - Jeff Pizano")
+                .showInformation();
     }
+    
     
     
     /**
@@ -154,6 +278,7 @@ public class uiController implements Initializable
         this.sendRequest();
     }
 
+    
     
     /**
      * This method is called when the user presses the "Send Request" button.
@@ -179,14 +304,12 @@ public class uiController implements Initializable
             req.setPostData(postData);
             req.setUrl(txtEndpoint.getText());
         }
-        catch (ProtocolException ex)
-        {
+        catch (ProtocolException ex) {
             statusLabel.setText("Invalid Protocol.");
             progBar.setProgress(0);
             return;
         }
-        catch (MalformedURLException ex)
-        {
+        catch (MalformedURLException ex) {
             statusLabel.setText("Bad URL.");
             progBar.setProgress(0);
             return;
@@ -237,8 +360,7 @@ public class uiController implements Initializable
             SingleSelectionModel<Tab> selectionModel = tabsResponse.getSelectionModel();
             selectionModel.select(1);
         }
-        else
-        {
+        else {
             statusLabel.setText("Failed.");
         }
     }
@@ -348,16 +470,11 @@ public class uiController implements Initializable
     private void initRequestHeaderTable()
     {
         Callback<TableColumn, TableCell> cellFactory =
-             new Callback<TableColumn, TableCell>() {
-                 @Override
-                 public TableCell call(TableColumn p) {
-                    return new EditingCell();
-                 }
-             };
+             (TableColumn p) -> new EditingCell();
         
         TableColumn colHeader = new TableColumn("Request Header");
         colHeader.setMinWidth(200);
-        colHeader.setCellValueFactory(new PropertyValueFactory<RequestHeader, String>("header"));
+        colHeader.setCellValueFactory(new PropertyValueFactory<>("header"));
         colHeader.setCellFactory(cellFactory);
         colHeader.setOnEditCommit(
             new EventHandler<CellEditEvent<RequestHeader, String>>() {
@@ -372,7 +489,7 @@ public class uiController implements Initializable
         
         TableColumn colValue = new TableColumn("Value");
         colValue.setMinWidth(300);
-        colValue.setCellValueFactory(new PropertyValueFactory<RequestHeader, String>("value"));
+        colValue.setCellValueFactory(new PropertyValueFactory<>("value"));
         colValue.setCellFactory(cellFactory);
         colValue.setOnEditCommit(
             new EventHandler<CellEditEvent<RequestHeader, String>>() {
@@ -391,7 +508,6 @@ public class uiController implements Initializable
         tableReqH.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
-                RequestHeader selectedPerson = (RequestHeader) newValue;
                 rqSelectedIndex.set(requestHeaders.indexOf(newValue));
             }
         });
@@ -408,12 +524,7 @@ public class uiController implements Initializable
         tablePostData.setEditable(true);
         
         Callback<TableColumn, TableCell> cellFactory = 
-                new Callback<TableColumn, TableCell>() {
-                    @Override
-                    public TableCell call(TableColumn p) {
-                        return new EditingCell();
-                    }
-                };
+                (TableColumn p) -> new EditingCell();
         
         TableColumn colParam = new TableColumn("Parameter");
         colParam.setMinWidth(200);
@@ -450,7 +561,6 @@ public class uiController implements Initializable
         tablePostData.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
-                PostData selectedValue = (PostData) newValue;
                 pstSelectedIndex.set(postData.indexOf(newValue));
             }
         });
@@ -465,11 +575,11 @@ public class uiController implements Initializable
     {
         TableColumn colHeader = new TableColumn("Request Header");
         colHeader.setMinWidth(200);
-        colHeader.setCellValueFactory(new PropertyValueFactory<RequestHeader, String>("header"));
+        colHeader.setCellValueFactory(new PropertyValueFactory<>("header"));
 
         TableColumn colValue = new TableColumn("Value");
         colValue.setMinWidth(300);
-        colValue.setCellValueFactory(new PropertyValueFactory<RequestHeader, String>("value"));
+        colValue.setCellValueFactory(new PropertyValueFactory<>("value"));
 
         tableRspHeader.setItems(responseHeaders);
         tableRspHeader.getColumns().addAll(colHeader, colValue);

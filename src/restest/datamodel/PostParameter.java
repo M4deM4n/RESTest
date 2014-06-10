@@ -13,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
  *
  * @author Pizano
  */
-public class PostData implements Serializable
+public class PostParameter implements Serializable
 {
 //    final private SimpleStringProperty param = new SimpleStringProperty();
 //    final private SimpleStringProperty data = new SimpleStringProperty();
@@ -24,7 +24,7 @@ public class PostData implements Serializable
     /**
      * 
      */
-    public PostData()
+    public PostParameter()
     {
         // Do Nothing
     }
@@ -35,7 +35,7 @@ public class PostData implements Serializable
      * @param p
      * @param d 
      */
-    public PostData(String p, String d)
+    public PostParameter(String p, String d)
     {
 //        param.set(p);
 //        data.set(d);

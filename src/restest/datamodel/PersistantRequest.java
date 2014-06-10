@@ -22,7 +22,7 @@ public class PersistantRequest implements Serializable
 {
     private String url;
     private List<RequestHeader> headers;
-    private List<PostData> postData;
+    private List<PostParameter> postData;
     
     public PersistantRequest()
     {
@@ -35,7 +35,7 @@ public class PersistantRequest implements Serializable
         headers.addAll(h);
     }
     
-    public void setPostData(ObservableList<PostData> p)
+    public void setPostData(ObservableList<PostParameter> p)
     {
         postData.addAll(p);
     }
@@ -62,14 +62,14 @@ public class PersistantRequest implements Serializable
         return headers;
     }
     
-    public ObservableList<PostData> getPostData()
+    public ObservableList<PostParameter> getPostData()
     {
-        ObservableList<PostData> r = FXCollections.observableArrayList();
+        ObservableList<PostParameter> r = FXCollections.observableArrayList();
         r.addAll(postData);
         return r;
     }
     
-    public List<PostData> getPostDataList()
+    public List<PostParameter> getPostDataList()
     {
         return postData;
     }

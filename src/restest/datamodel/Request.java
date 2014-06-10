@@ -17,12 +17,12 @@ import javafx.collections.ObservableList;
  *
  * @author Pizano
  */
-public class Request
+public class Request 
 {
     private String m_method;
     private URL m_url;
     private ObservableList<RequestHeader> m_headerList;
-    private ObservableList<PostData> m_postParamList;
+    private ObservableList<PostParameter> m_postParamList;
 
     final public static String GET = "GET";
     final public static String POST = "POST";
@@ -100,7 +100,7 @@ public class Request
      * @param postData
      * @throws MalformedURLException 
      */
-    public Request(String url, ObservableList<RequestHeader> headers, ObservableList<PostData> postData) throws MalformedURLException
+    public Request(String url, ObservableList<RequestHeader> headers, ObservableList<PostParameter> postData) throws MalformedURLException
     {
         this.m_method = Request.POST;
         this.m_url = new URL(url);
@@ -117,7 +117,7 @@ public class Request
      * @param postData
      * @throws MalformedURLException 
      */
-    public Request(URL url, ObservableList<RequestHeader> headers, ObservableList<PostData> postData) throws MalformedURLException
+    public Request(URL url, ObservableList<RequestHeader> headers, ObservableList<PostParameter> postData) throws MalformedURLException
     {
         this.m_method = Request.POST;
         this.m_url = url;
@@ -153,7 +153,7 @@ public class Request
      * 
      * @return 
      */
-    public ObservableList<PostData> getPostParamList()
+    public ObservableList<PostParameter> getPostParamList()
     {
         return this.m_postParamList;
     }
@@ -241,7 +241,7 @@ public class Request
      * 
      * @param postData 
      */
-    public void setPostData(ObservableList<PostData> postData)
+    public void setPostData(ObservableList<PostParameter> postData)
     {
         this.m_postParamList = postData;
     }

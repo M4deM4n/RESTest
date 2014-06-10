@@ -7,8 +7,9 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" blendMode="SRC_OVER" minWidth="450.0" prefHeight="401.0" prefWidth="702.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restest.uiController">
+<AnchorPane id="AnchorPane" blendMode="SRC_OVER" minWidth="800.0" prefHeight="512.0" prefWidth="960.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restest.uiController">
   <children>
     <MenuBar id="menuBar" layoutY="0.0" prefWidth="442.0" style="" useSystemMenuBar="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
       <menus>
@@ -28,7 +29,10 @@
 <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
 </accelerator></MenuItem>
           </items>
-        </Menu>
+        </Menu><Menu mnemonicParsing="false" text="Options">
+<items><CheckMenuItem fx:id="optFormatJson" mnemonicParsing="false" text="Auto Format (json)" />
+</items>
+</Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
             <MenuItem fx:id="menuAbout" mnemonicParsing="false" onAction="#showAbout" text="About" />
@@ -38,7 +42,7 @@
     </MenuBar>
     <AnchorPane prefHeight="49.0" prefWidth="453.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0">
       <children>
-        <ChoiceBox fx:id="choiceMethod" prefHeight="25.0" prefWidth="78.0" style="" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="15.0">
+        <ChoiceBox fx:id="methodChoice" prefHeight="25.0" prefWidth="78.0" style="" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="15.0">
           <items>
             <FXCollections fx:factory="observableArrayList">
               <String fx:value="GET" />
@@ -49,7 +53,7 @@
           </items>
         </ChoiceBox>
         <Button fx:id="btnSubmit" mnemonicParsing="false" onAction="#sendRequest" text="Send Request" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="15.0" />
-        <TextField fx:id="txtEndpoint" layoutY="15.0" onAction="#onEnter" prefWidth="304.0" promptText="URL/Endpoint" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="203.0" />
+        <TextField fx:id="urlEntry" layoutY="15.0" onAction="#onEnter" prefWidth="304.0" promptText="URL/Endpoint" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="203.0" />
       </children>
     </AnchorPane>
     <TabPane fx:id="tabsResponse" prefHeight="304.0" prefWidth="521.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="73.0">
@@ -64,7 +68,7 @@
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <TableView fx:id="tableReqH" editable="true" prefHeight="225.0" prefWidth="441.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
+                            <TableView fx:id="requestHeaderTable" editable="true" prefHeight="225.0" prefWidth="441.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
 <effect>
 <InnerShadow color="#00000054" />
 </effect></TableView>
@@ -92,7 +96,7 @@
                                 <Button fx:id="btnPDDel" mnemonicParsing="false" onAction="#deletePostData" prefWidth="73.0" text="Delete" />
                                 <Button fx:id="btnPDClear" mnemonicParsing="false" onAction="#clearPostData" prefWidth="78.0" text="Clear" />
                               </items>
-                            </ToolBar><TableView fx:id="tablePostData" editable="true" layoutX="14.0" layoutY="13.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
+                            </ToolBar><TableView fx:id="postDataTable" editable="true" layoutX="14.0" layoutY="13.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="80.0" AnchorPane.topAnchor="0.0">
 <effect>
 <InnerShadow color="#00000054" />
 </effect>
@@ -120,7 +124,7 @@
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <TableView fx:id="tableRspHeader" prefHeight="225.0" prefWidth="523.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <TableView fx:id="responseHeaderTable" prefHeight="225.0" prefWidth="523.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 <effect>
 <InnerShadow color="#00000054" />
 </effect></TableView>
@@ -155,7 +159,10 @@
     </TabPane>
     <HBox prefHeight="24.0" prefWidth="521.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 <children><AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="704.0" HBox.hgrow="ALWAYS">
-<children><Label fx:id="statusLabel" alignment="BOTTOM_CENTER" layoutX="221.0" prefHeight="24.0" prefWidth="374.0" style="-fx-background-color: #DDD; -fx-border-color: #AAA;" text="idle..." AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="221.0" AnchorPane.rightAnchor="107.0" AnchorPane.topAnchor="5.0" /><Hyperlink fx:id="lnkJeffPizano" layoutX="608.8017578125" layoutY="0.5" onAction="#visitAuthorAddress" text="JeffPizano.com" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" /><ProgressBar fx:id="progBar" layoutX="10.0" layoutY="3.0" prefWidth="200.0" progress="0.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="4.0" />
+<children><Label fx:id="statusLabel" alignment="BOTTOM_CENTER" layoutX="221.0" prefHeight="19.0" prefWidth="485.0" style="-fx-background-color: #DDD; -fx-border-color: #AAA;" text="idle..." AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="107.0" AnchorPane.topAnchor="5.0">
+<font>
+<Font name="System Bold Italic" size="12.0" />
+</font></Label><Hyperlink fx:id="lnkJeffPizano" layoutX="608.8017578125" layoutY="0.5" onAction="#visitAuthorAddress" text="JeffPizano.com" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" /><ProgressBar fx:id="progBar" layoutX="10.0" layoutY="3.0" prefWidth="87.0" progress="0.0" style="-fx-accent: #00CC3E;" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="4.0" />
 </children></AnchorPane>
 </children></HBox>
   </children>

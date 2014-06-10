@@ -14,7 +14,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import restest.datamodel.PostData;
+import restest.datamodel.PostParameter;
 import restest.datamodel.Request;
 import restest.datamodel.RequestHeader;
 import restest.datamodel.Response;
@@ -30,7 +30,7 @@ public class RESTConnection extends Task<Response>
     private HttpURLConnection connection;
     private URL url;
     private ObservableList<RequestHeader> headers;
-    private ObservableList<PostData> postData;
+    private ObservableList<PostParameter> postData;
     
     private String method;
 
@@ -69,7 +69,7 @@ public class RESTConnection extends Task<Response>
      * @throws MalformedURLException
      * @throws IOException 
      */
-    public RESTConnection(String url, ObservableList<RequestHeader> headers, ObservableList<PostData> postData) throws MalformedURLException, IOException
+    public RESTConnection(String url, ObservableList<RequestHeader> headers, ObservableList<PostParameter> postData) throws MalformedURLException, IOException
     {
         this.headers = headers;
         this.postData = postData;
@@ -190,7 +190,7 @@ public class RESTConnection extends Task<Response>
         int limit = postData.size();
         for(int i = 0; i < limit; i++)
         {
-            PostData pstd = postData.get(i);
+            PostParameter pstd = postData.get(i);
             if(i > 0) { data += "&"; }
             data += pstd.toString();
         }
